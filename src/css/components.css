@@ -1,0 +1,438 @@
+/* ============================================================
+   RED CHAPTERS — COMPONENT LIBRARY  (spec §11)
+   Each component defined once, reused everywhere. That is what
+   guarantees consistency. Every component obeys the baseline,
+   the spacing tokens, tabular figures, and red-as-punctuation.
+   ============================================================ */
+
+/* ---------- shared type roles ---------- */
+.kicker {            /* eyebrow */
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-kicker);
+  font-weight: 700;
+  letter-spacing: var(--tr-kicker);
+  text-transform: uppercase;
+  color: var(--red);
+}
+.kicker.muted { color: var(--muted); }
+.is-dark .kicker.muted, .is-graphite .kicker.muted { color: var(--muted-on-dark); }
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: var(--fs-hero);
+  line-height: 0.86;
+  font-weight: 400;
+  letter-spacing: var(--tr-hero);
+  text-transform: uppercase;
+  margin: 0;
+}
+.chapter-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-chapter);
+  line-height: 0.88;
+  letter-spacing: var(--tr-display);
+  text-transform: uppercase;
+  margin: 0;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: 56pt;
+  line-height: 0.9;
+  letter-spacing: var(--tr-display);
+  text-transform: uppercase;
+  margin: 0;
+}
+.split-red { color: var(--red); }   /* two-tone headline word */
+
+.deck {
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-deck);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.standfirst {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-standfirst);
+  line-height: var(--lh-standfirst);
+  font-feature-settings: var(--feat-oldstyle);
+}
+
+/* ---------- masthead (cover wordmark + rule) ---------- */
+.masthead {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  line-height: 0.82;
+  letter-spacing: -0.035em;
+  color: var(--ivory);
+}
+.masthead .word { display: block; font-size: var(--fs-masthead); }
+.masthead-rule {
+  border: 0; border-top: 1.4pt solid var(--ivory);
+  margin-top: var(--space-2xs);
+}
+
+/* ---------- chapter-opener frame ---------- */
+.chapter-opener .kicker { margin-bottom: var(--space-sm); }
+.chapter-opener .deck   { margin-top: var(--space-sm); max-width: 58ch; }
+
+/* big chapter index numeral */
+.chapter-numeral {
+  font-family: var(--font-display);
+  font-size: 150pt;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--red);
+  font-feature-settings: var(--feat-tabular);
+}
+.chapter-numeral.ghost {
+  color: transparent;
+  -webkit-text-stroke: 1pt var(--hairline);
+}
+
+/* ---------- caption ---------- */
+.caption {
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-caption);
+  letter-spacing: var(--tr-caption);
+  color: var(--muted);
+}
+.caption .label {
+  display: inline;
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.caption.on-dark { color: var(--muted-on-dark); }
+.caption.on-dark .label { color: var(--ivory); }
+
+/* ---------- pull-quote (hanging punctuation) ---------- */
+.pull-quote {
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-pull);
+  line-height: var(--lh-pull);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  hanging-punctuation: first;     /* hang the opening quote where supported */
+  text-wrap: balance;
+}
+.pull-quote.red { color: var(--red); }
+.pull-quote cite {
+  display: block;
+  margin-top: var(--space-sm);
+  font-size: var(--fs-kicker);
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  text-indent: 0;
+  color: var(--muted);
+}
+.is-dark .pull-quote cite { color: var(--muted-on-dark); }
+
+/* ---------- stat-block (the atomic infographic unit) ---------- */
+.stat-block { display: block; }
+.stat-block .figure {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 64pt;
+  line-height: 0.9;
+  letter-spacing: var(--tr-hero);
+  font-feature-settings: var(--feat-tabular);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.stat-block .label {
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-stat-label);
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: var(--space-2xs);
+}
+.is-dark .stat-block .label, .is-graphite .stat-block .label { color: var(--muted-on-dark); }
+.stat-block.accent .figure { color: var(--red); }
+.stat-block.hero .figure { font-size: 132pt; }
+.stat-block.lg .figure   { font-size: 92pt; }
+.stat-block.sm .figure   { font-size: 40pt; }
+
+/* a tidy row of stat-blocks separated by hairlines.
+   Content-width + space-between so varied values (e.g. "£200m") never clip. */
+.stat-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+}
+.stat-row .stat-block { flex: 0 0 auto; }
+.stat-row .figure { white-space: nowrap; }
+.stat-row.compact .figure { font-size: 46pt; }
+.stat-row .stat-block { padding-left: var(--space-sm); border-left: 0.4pt solid var(--hairline); }
+.stat-row .stat-block:first-child { padding-left: 0; border-left: 0; }
+.is-dark .stat-row .stat-block { border-color: var(--hairline-dark); }
+
+/* ---------- stat-rail (vertical stack for profile pages) ---------- */
+.stat-rail { display: flex; flex-direction: column; }
+.stat-rail .stat-block {
+  padding: var(--space-sm) 0;
+  border-top: 0.4pt solid var(--hairline);
+}
+.stat-rail .stat-block:first-child { border-top: 0; padding-top: 0; }
+.stat-rail .stat-block .figure { font-size: 56pt; }
+.is-dark .stat-rail .stat-block { border-color: var(--hairline-dark); }
+
+/* ---------- player-card (portrait + profile stat stack) ---------- */
+.player-card .pos-eyebrow {
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-stat-label);
+  font-weight: 700; letter-spacing: var(--tr-label);
+  text-transform: uppercase; color: var(--muted);
+}
+.player-card .name {
+  font-family: var(--font-display);
+  font-size: 26pt; line-height: 0.96;
+  letter-spacing: var(--tr-display); text-transform: uppercase;
+  margin: var(--space-2xs) 0 var(--space-xs);
+}
+
+/* ---------- transfer-summary (three-across front three) ---------- */
+.transfer {
+  display: flex; flex-direction: column;
+  padding-top: var(--space-sm);
+  border-top: 2pt solid var(--ink);
+}
+.transfer .club {
+  font-family: var(--font-grotesque); font-size: var(--fs-stat-label);
+  font-weight: 700; letter-spacing: var(--tr-label);
+  text-transform: uppercase; color: var(--muted);
+}
+.transfer .name {
+  font-family: var(--font-display); font-size: 21pt; line-height: 1.04;
+  letter-spacing: var(--tr-display); text-transform: uppercase;
+  margin: var(--space-xs) 0 var(--space-sm);
+}
+.transfer .fee {
+  font-family: var(--font-display); font-size: 40pt; line-height: 0.86;
+  font-feature-settings: var(--feat-tabular); color: var(--red);
+  white-space: nowrap;
+}
+.transfer .fee-label, .transfer .goals-label {
+  font-family: var(--font-grotesque); font-size: var(--fs-stat-label);
+  font-weight: 700; letter-spacing: var(--tr-label); text-transform: uppercase;
+  color: var(--muted); margin-top: var(--space-2xs);
+}
+.transfer .goals {
+  font-family: var(--font-display); font-size: 28pt; line-height: 1;
+  font-feature-settings: var(--feat-tabular); margin-top: var(--space-xs);
+}
+.transfer .verdict {
+  font-family: var(--font-serif); font-size: var(--fs-body);
+  line-height: var(--lh-body); margin-top: var(--space-xs);
+  font-feature-settings: var(--feat-oldstyle);
+}
+
+/* ---------- league-table ---------- */
+.league-table { width: 100%; border-collapse: collapse;
+  font-family: var(--font-grotesque); font-size: var(--fs-table);
+  line-height: var(--lh-table);
+  font-feature-settings: var(--feat-tabular);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+.league-table th {
+  text-align: left; font-weight: 700; font-size: var(--fs-stat-label);
+  letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--muted);
+  padding: 0 0 var(--space-2xs); border-bottom: 0.6pt solid var(--ink);
+}
+.league-table td {
+  padding: 2mm 0; border-bottom: 0.3pt solid var(--hairline);
+  font-weight: 500;
+}
+.league-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.league-table .pos { color: var(--muted); width: 8mm; }
+.league-table .club { font-weight: 700; }
+.league-table .status { text-align: right; color: var(--muted);
+  font-size: var(--fs-stat-label); letter-spacing: var(--tr-label); text-transform: uppercase; }
+/* United highlighted with a thin red left-edge bar, never a full fill */
+.league-table tr.united td { font-weight: 700; }
+.league-table tr.united .pos { position: relative; }
+.league-table tr.united .pos::before {
+  content:""; position:absolute; left:-3mm; top:1mm; bottom:1mm; width:1.4mm; background: var(--red);
+}
+.league-table tr.united .club { color: var(--red); }
+
+/* ---------- timeline (spine + result tokens + rows) ---------- */
+.timeline { position: relative; padding-left: 14mm; }
+.timeline::before {
+  content:""; position:absolute; left:5mm; top:2mm; bottom:2mm;
+  width: 0.5pt; background: var(--hairline);
+}
+.is-dark .timeline::before { background: var(--hairline-dark); }
+.tl-row { position: relative; padding: 0 0 var(--space-md) 0; }
+.tl-row:last-child { padding-bottom: 0; }
+.tl-token {
+  position: absolute; left: -14mm; top: -0.5mm;
+  width: 10mm; height: 10mm; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--font-grotesque); font-weight: 900; font-size: 9pt;
+  color: var(--ivory); background: var(--ink);
+}
+.tl-token.l { background: var(--red); }
+.is-dark .tl-token { background: var(--ivory); color: var(--ink); }
+.is-dark .tl-token.l { background: var(--red); color: var(--ivory); }
+.tl-fixture {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: 12pt;
+  line-height: 1; letter-spacing: -0.01em;
+}
+.tl-date {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: var(--fs-stat-label);
+  letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--muted);
+  margin: 1.5mm 0;
+}
+.tl-note {
+  font-family: var(--font-serif); font-size: var(--fs-body); line-height: var(--lh-body);
+  font-feature-settings: var(--feat-oldstyle); max-width: 60ch;
+}
+.is-dark .tl-date { color: var(--muted-on-dark); }
+
+/* ---------- comparison-bar (horizontal proportional bars) ---------- */
+.comparison { display: flex; flex-direction: column; gap: var(--space-md); }
+.cmp-row { display: grid; grid-template-columns: 1fr; gap: var(--space-2xs); }
+.cmp-head { display: flex; flex-direction: column; gap: 1mm; }
+.cmp-name {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: 10.5pt;
+  letter-spacing: 0.02em; text-transform: uppercase; line-height: 1;
+}
+.cmp-sub { font-family: var(--font-grotesque); font-size: var(--fs-stat-label);
+  font-weight: 500; letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--muted); }
+.cmp-track { position: relative; height: 11mm; background: var(--tint); }
+.is-dark .cmp-track { background: rgba(244,241,234,0.08); }
+.cmp-fill { position: absolute; left:0; top:0; bottom:0; background: var(--graphite); }
+.cmp-row.accent .cmp-fill { background: var(--red); }
+.cmp-val {
+  position: absolute; right: var(--space-xs); top: 50%; transform: translateY(-50%);
+  font-family: var(--font-display); font-size: 26pt; color: var(--ivory);
+  font-feature-settings: var(--feat-tabular);
+}
+
+/* ---------- rating-bar (FM-style) ---------- */
+.rating { display: grid; grid-template-columns: 1fr auto; gap: var(--space-xs) var(--space-sm); align-items: center; }
+.rating .r-label { font-family: var(--font-grotesque); font-weight: 700; font-size: var(--fs-stat-label);
+  letter-spacing: var(--tr-label); text-transform: uppercase; }
+.rating .r-track { grid-column: 1 / 2; height: 3mm; background: var(--tint); }
+.rating .r-fill { height: 100%; background: var(--ink); }
+.rating .r-fill.accent { background: var(--red); }
+.rating .r-num { grid-column: 2 / 3; font-family: var(--font-display); font-size: 16pt;
+  font-feature-settings: var(--feat-tabular); }
+
+/* ---------- sidebar (tinted 3-col breakout) ---------- */
+.sidebar {
+  background: var(--tint);
+  padding: var(--space-sm);
+  border-top: 2pt solid var(--red);
+}
+.sidebar .sb-title {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: var(--fs-kicker);
+  letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--red);
+  margin-bottom: var(--space-xs);
+}
+.sidebar p { font-family: var(--font-serif); font-size: var(--fs-body);
+  line-height: var(--lh-body); font-feature-settings: var(--feat-oldstyle); }
+
+/* ---------- section-divider ---------- */
+.divider-label {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: var(--fs-kicker);
+  letter-spacing: var(--tr-kicker); text-transform: uppercase;
+}
+
+/* ---------- contents (typographic index) ---------- */
+.contents-list { display: flex; flex-direction: column; }
+.contents-row {
+  display: grid; grid-template-columns: 18mm 1fr 12mm; align-items: baseline;
+  column-gap: var(--space-sm);
+  padding: 4.5mm 0; border-top: 0.4pt solid var(--hairline);
+}
+.contents-row:first-child { border-top: 0; }
+.contents-row .c-num {
+  font-family: var(--font-display); font-size: 28pt; line-height: 0.8;
+  font-feature-settings: var(--feat-tabular); color: var(--red);
+}
+.contents-row .c-title {
+  display: block;
+  font-family: var(--font-grotesque); font-weight: 700; font-size: 14pt;
+  letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.02;
+}
+.contents-row .c-sub {
+  display: block;
+  font-family: var(--font-serif); font-style: italic; font-size: var(--fs-body);
+  color: var(--muted); margin-top: 1.5mm;
+}
+.contents-row .c-folio {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: 12pt;
+  font-feature-settings: var(--feat-tabular); color: var(--muted);
+}
+
+/* ---------- two-season comparison ledger (By The Numbers) ---------- */
+.led-row {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: baseline;
+  column-gap: var(--space-sm);
+  padding: 6mm 0; border-top: 0.4pt solid var(--hairline-dark);
+}
+.led-row:first-child { border-top: 0; }
+.led-a, .led-b {
+  font-family: var(--font-display); font-size: 34pt; line-height: 0.9;
+  font-feature-settings: var(--feat-tabular);
+}
+.led-a { color: var(--muted-on-dark); text-align: left; }
+.led-b { color: var(--ivory); text-align: right; }
+.led-row:nth-child(4) .led-b { color: var(--red); }   /* highlight the record row */
+.led-l {
+  font-family: var(--font-grotesque); font-size: var(--fs-stat-label); font-weight: 700;
+  letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--muted-on-dark);
+  text-align: center; white-space: nowrap;
+}
+
+/* ---------- numbered predictions list ---------- */
+.calls { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md) var(--space-lg); }
+.call { display: grid; grid-template-columns: auto 1fr; gap: var(--space-sm); align-items: start;
+  padding-top: var(--space-sm); border-top: 0.6pt solid var(--ink); }
+.call .c-no {
+  font-family: var(--font-display); font-size: 34pt; line-height: 0.8;
+  font-feature-settings: var(--feat-tabular); color: var(--red);
+}
+.call .c-head {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: 13pt;
+  letter-spacing: -0.01em; text-transform: uppercase; line-height: 1.02;
+  margin-bottom: var(--space-xs);
+}
+.call .c-body { font-family: var(--font-serif); font-size: var(--fs-body);
+  line-height: var(--lh-body); font-feature-settings: var(--feat-oldstyle); }
+
+/* ---------- editor's call / callout box ---------- */
+.callout {
+  border-top: 2pt solid var(--red);
+  border-bottom: 0.4pt solid var(--hairline);
+  padding: var(--space-sm) 0;
+}
+.callout .co-label {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: var(--fs-kicker);
+  letter-spacing: var(--tr-kicker); text-transform: uppercase; color: var(--red);
+  margin-bottom: var(--space-xs);
+}
+.callout p { font-family: var(--font-grotesque); font-weight: 500; font-size: 12pt;
+  line-height: 1.25; }
+
+/* ---------- back-cover ---------- */
+.backcover .bc-coming {
+  font-family: var(--font-grotesque); font-weight: 700; font-size: var(--fs-kicker);
+  letter-spacing: var(--tr-kicker); text-transform: uppercase; color: var(--gold);
+}
+.backcover .bc-title {
+  font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: var(--tr-display); line-height: 0.9;
+}
+
+/* ---------- crest (quiet monochrome device) ---------- */
+.crest { width: 18mm; height: 18mm; }
+.crest path, .crest circle, .crest rect { fill: currentColor; }

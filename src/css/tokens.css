@@ -1,0 +1,99 @@
+/* ============================================================
+   RED CHAPTERS — DESIGN TOKENS
+   Single source of truth. Imported everywhere.
+   Spec refs: §2 (grid/spacing), §3 (type), §9 (colour).
+   All print measurements in mm / pt for fidelity.
+   ============================================================ */
+
+:root {
+
+  /* ---------------------------------------------------------
+     §9  COLOUR — one disciplined palette. Red is punctuation.
+     --------------------------------------------------------- */
+  --red:        #C8102E;   /* United red — accent only */
+  --ink:        #0A0A0A;   /* near-black — primary text on light */
+  --ivory:      #F4F1EA;   /* warm paper white — base surface */
+  --graphite:   #2B2B2B;   /* secondary furniture, dark panels */
+  --gold:       #C8A24B;   /* ceremonial accent ONLY (back cover) */
+
+  /* derived neutrals (kept within the palette family) */
+  --ink-on-dark:   #F4F1EA;          /* ivory used as text on dark */
+  --muted:         #6E6A62;          /* muted label grey on ivory */
+  --muted-on-dark: rgba(244,241,234,0.62);
+  --hairline:      rgba(10,10,10,0.18);
+  --hairline-dark: rgba(244,241,234,0.22);
+  --tint:          rgba(10,10,10,0.045);   /* sidebar tint on ivory */
+
+  /* ---------------------------------------------------------
+     §2  PAGE GEOMETRY
+     --------------------------------------------------------- */
+  --trim-w: 210mm;
+  --trim-h: 297mm;
+  --bleed:  0mm;            /* overridden to 3mm in the print profile */
+
+  /* asymmetric margins (safe area) */
+  --margin-top:    18mm;
+  --margin-bottom: 20mm;
+  --margin-out:    16mm;
+  --margin-in:     20mm;    /* spine side */
+  --safe:          5mm;     /* live/safe inset for critical type */
+
+  /* 12-column grid */
+  --columns: 12;
+  --gutter:  5mm;
+
+  /* ---------------------------------------------------------
+     §2  BASELINE + SPACING SCALE (the only spacing allowed)
+     --------------------------------------------------------- */
+  --baseline:  4mm;
+  --space-2xs: 2mm;
+  --space-xs:  4mm;   /* 1 baseline */
+  --space-sm:  8mm;   /* 2 baselines */
+  --space-md:  12mm;  /* 3 baselines */
+  --space-lg:  20mm;  /* 5 baselines */
+  --space-xl:  32mm;  /* 8 baselines */
+  --space-2xl: 48mm;  /* 12 baselines */
+
+  /* ---------------------------------------------------------
+     §3  TYPEFACES
+     --------------------------------------------------------- */
+  --font-display:   'Archivo Black', 'Archivo', system-ui, sans-serif;
+  --font-grotesque: 'Archivo', system-ui, sans-serif;
+  --font-serif:     'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+  /* ---------------------------------------------------------
+     §3  TYPE SCALE (size / leading on the 4 mm baseline)
+     Values in pt for print fidelity.
+     --------------------------------------------------------- */
+  --fs-masthead:      96pt;
+  --fs-hero:         132pt;   /* hero headline 110–160 */
+  --fs-chapter:       72pt;   /* section / chapter title 56–80 */
+  --fs-deck:          20pt;   /* subhead under headline */
+  --fs-standfirst:    14pt;   --lh-standfirst: 20pt;
+  --fs-body:         9.5pt;   --lh-body:       14pt;   /* lands on baseline */
+  --fs-body-lg:       11pt;   --lh-body-lg:    16pt;
+  --fs-pull:          38pt;   --lh-pull:       40pt;
+  --fs-caption:        7pt;   --lh-caption:    10pt;
+  --fs-kicker:         8pt;
+  --fs-stat-label:     7pt;
+  --fs-folio:          8pt;
+  --fs-runhead:        7pt;
+  --fs-table:        8.5pt;   --lh-table:      12pt;
+
+  /* tracking */
+  --tr-display:  -0.02em;
+  --tr-hero:     -0.03em;
+  --tr-label:     0.08em;
+  --tr-runhead:   0.10em;
+  --tr-kicker:    0.12em;
+  --tr-caption:   0.02em;
+
+  /* tabular lining figures for stats + tables */
+  --feat-tabular: "tnum" 1, "lnum" 1;
+  --feat-oldstyle: "onum" 1, "liga" 1, "kern" 1;
+}
+
+/* Print profile turns the bleed on (set on <html data-profile="print">) */
+html[data-profile="print"] {
+  --bleed: 3mm;
+}

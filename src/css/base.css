@@ -1,0 +1,264 @@
+/* ============================================================
+   RED CHAPTERS — BASE / PAGE SYSTEM
+   @page rules, the 12-column grid, the 4 mm baseline,
+   global type defaults, page furniture, image treatment.
+   ============================================================ */
+
+/* ---------- @page : size, bleed, marks (profile-switched) ---------- */
+@page {
+  size: 210mm 297mm;
+  margin: 0;
+}
+html[data-profile="print"] {
+  /* paged.js draws crop + registration marks and a 3mm bleed box */
+}
+@media print {
+  html[data-profile="print"] @page { }
+}
+
+/* ---------- reset ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: #d8d4cc;            /* screen surround; never prints */
+  color: var(--ink);
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-kerning: normal;
+}
+img { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
+
+/* ============================================================
+   THE PAGE
+   Each .page is exactly one trimmed sheet. All page content is
+   absolutely positioned so block-flow height stays fixed at the
+   trim height — guaranteeing exactly one sheet per .page.
+   ============================================================ */
+.page {
+  position: relative;
+  width: var(--trim-w);
+  height: var(--trim-h);
+  background: var(--ivory);
+  overflow: visible;            /* allow full-bleed children into the bleed */
+  break-before: page;
+  page-break-before: always;
+  break-inside: avoid;          /* a designed page is atomic — never fragment it */
+  page-break-inside: avoid;
+  /* screen-only sheet shadow; harmless in PDF */
+  box-shadow: 0 0.5mm 4mm rgba(0,0,0,0.25);
+}
+.page:first-child { break-before: avoid; page-break-before: avoid; }
+
+/* dark pages flip the base colours */
+.page.is-dark   { background: var(--ink);   color: var(--ink-on-dark); }
+.page.is-graphite { background: var(--graphite); color: var(--ink-on-dark); }
+
+/* ---------- the live/safe area + 12-column grid ---------- */
+.live {
+  position: absolute;
+  top: var(--margin-top);
+  bottom: var(--margin-bottom);
+  overflow: hidden;            /* clamp the live area so a page can never spawn a sheet */
+  display: grid;
+  /* minmax(0,1fr) lets tracks shrink below content min-size — without it a wide
+     stat figure blows out the whole 12-col grid and distorts every other cell */
+  grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-content: start;
+}
+.live > * { min-width: 0; }
+/* spine-aware horizontal margins */
+.pagedjs_right_page .live,
+.page[data-side="right"] .live { left: var(--margin-in);  right: var(--margin-out); }
+.pagedjs_left_page  .live,
+.page[data-side="left"]  .live { left: var(--margin-out); right: var(--margin-in); }
+/* fallback before paged.js assigns sides */
+.live { left: var(--margin-in); right: var(--margin-out); }
+
+/* column span helpers (1..12) + start lines.
+   Use grid-column-END:span so they compose with .start-* (which sets
+   grid-column-START); setting the shorthand would clobber the start line. */
+.col-1{grid-column-end:span 1}.col-2{grid-column-end:span 2}.col-3{grid-column-end:span 3}
+.col-4{grid-column-end:span 4}.col-5{grid-column-end:span 5}.col-6{grid-column-end:span 6}
+.col-7{grid-column-end:span 7}.col-8{grid-column-end:span 8}.col-9{grid-column-end:span 9}
+.col-10{grid-column-end:span 10}.col-11{grid-column-end:span 11}.col-12{grid-column-end:span 12}
+.start-1{grid-column-start:1}.start-2{grid-column-start:2}.start-3{grid-column-start:3}
+.start-4{grid-column-start:4}.start-5{grid-column-start:5}.start-6{grid-column-start:6}
+.start-7{grid-column-start:7}.start-8{grid-column-start:8}.start-9{grid-column-start:9}
+.start-10{grid-column-start:10}.start-11{grid-column-start:11}
+
+/* ============================================================
+   FULL BLEED — extends into the 3mm bleed on the print profile,
+   sits flush to trim on digital (--bleed:0).
+   ============================================================ */
+.full-bleed {
+  position: absolute;
+  top:    calc(-1 * var(--bleed));
+  left:   calc(-1 * var(--bleed));
+  right:  calc(-1 * var(--bleed));
+  bottom: calc(-1 * var(--bleed));
+  width: auto; height: auto;
+  overflow: hidden;
+}
+.full-bleed img,
+.bleed-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================
+   §7 IMAGE TREATMENT — graduated darken so type holds.
+   Never a flat grey box; always a directional gradient.
+   ============================================================ */
+.grad-bottom::after,
+.grad-top::after,
+.grad-cover::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+}
+.grad-bottom::after {
+  background: linear-gradient(to top,
+    rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.55) 22%,
+    rgba(10,10,10,0.0) 52%);
+}
+.grad-top::after {
+  background: linear-gradient(to bottom,
+    rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.0) 38%);
+}
+.grad-cover::after {
+  background:
+    linear-gradient(to bottom, rgba(10,10,10,0.78) 0%, rgba(10,10,10,0.0) 30%),
+    linear-gradient(to top,    rgba(10,10,10,0.90) 0%, rgba(10,10,10,0.0) 46%);
+}
+.grad-left::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background: linear-gradient(to right,
+    rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.35) 32%, rgba(10,10,10,0) 60%);
+}
+
+/* duotone signature for archival/secondary imagery (§7) */
+.duotone img, img.duotone {
+  filter: grayscale(1) contrast(1.06) brightness(0.96);
+}
+.duotone { position: relative; }
+.duotone::before {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  mix-blend-mode: multiply;
+  background: var(--red);
+}
+.duotone::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  mix-blend-mode: lighten;
+  background: #140a0c;
+}
+
+/* hard edges only — no shadow/rounding/border on photos (§7) */
+figure, .photo { border: 0; border-radius: 0; box-shadow: none; }
+
+/* ============================================================
+   GLOBAL TYPOGRAPHY DEFAULTS
+   ============================================================ */
+.body-copy, p.body {
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: 400;
+  font-feature-settings: var(--feat-oldstyle);
+  hyphens: none;                      /* house rule: no hyphenated joins */
+  -webkit-hyphens: none;
+  hanging-punctuation: first allow-end;
+  text-wrap: pretty;                  /* discourages widows/orphans */
+  orphans: 2; widows: 2;
+}
+.body-copy p + p,
+.body-stack p + p { text-indent: 4mm; }   /* literary indent, no para space */
+.body-copy.cool p + p { text-indent: 0; margin-top: var(--baseline); }
+
+/* drop cap (feature openers only) */
+.dropcap::first-letter {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  float: left;
+  font-size: 41pt;       /* ~3 lines of 14pt leading */
+  line-height: 28pt;
+  padding-right: 2mm;
+  margin-top: 1pt;
+}
+
+/* ============================================================
+   PAGE FURNITURE — running header band + folio.
+   Injected per page; positioned at fixed offsets from trim.
+   ============================================================ */
+.runhead {
+  position: absolute;
+  top: 10mm;                      /* sits in the top margin, above the live area */
+  height: var(--baseline);
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-runhead);
+  font-weight: 500;
+  letter-spacing: var(--tr-runhead);
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 0.3pt solid var(--hairline);
+  padding-bottom: 1.5mm;
+}
+.pagedjs_right_page .runhead, .page[data-side="right"] .runhead { left: var(--margin-in);  right: var(--margin-out); }
+.pagedjs_left_page  .runhead, .page[data-side="left"]  .runhead { left: var(--margin-out); right: var(--margin-in); }
+.runhead { left: var(--margin-in); right: var(--margin-out); }
+.is-dark .runhead, .is-graphite .runhead { color: var(--muted-on-dark); border-color: var(--hairline-dark); }
+.runhead .rh-right { color: var(--red); }
+
+.folio {
+  position: absolute;
+  bottom: 9mm;                    /* sits in the bottom margin, below the live area */
+  display: flex; align-items: baseline; gap: var(--space-xs);
+  font-family: var(--font-grotesque);
+  font-size: var(--fs-folio);
+  font-weight: 700;
+  letter-spacing: var(--tr-runhead);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.folio .num { font-weight: 900; font-feature-settings: var(--feat-tabular); }
+.folio .mark { color: var(--muted); font-weight: 500; letter-spacing: var(--tr-label); }
+.is-dark .folio, .is-graphite .folio { color: var(--muted-on-dark); }
+
+/* folio sits on the OUTER edge, page number outermost */
+.pagedjs_right_page .folio, .page[data-side="right"] .folio { right: var(--margin-out); left: auto; flex-direction: row-reverse; }
+.pagedjs_left_page  .folio, .page[data-side="left"]  .folio { left: var(--margin-out); right: auto; }
+.folio { left: var(--margin-out); }
+
+/* ---------- layering utilities for page composition ---------- */
+.layer { position: absolute; }
+.inset-safe   { left: var(--margin-out); right: var(--margin-out); }
+.inset-top    { top: var(--margin-top); }
+.inset-bottom { bottom: var(--margin-bottom); }
+.stack > * + * { margin-top: var(--space-sm); }
+.stack-xs > * + * { margin-top: var(--space-xs); }
+.stack-md > * + * { margin-top: var(--space-md); }
+.stack-lg > * + * { margin-top: var(--space-lg); }
+.flex { display: flex; }
+.between { justify-content: space-between; }
+.items-end { align-items: flex-end; }
+.items-base { align-items: baseline; }
+.text-red { color: var(--red); }
+.muted { color: var(--muted); }
+.is-dark .muted, .is-graphite .muted { color: var(--muted-on-dark); }
+.uppercase { text-transform: uppercase; }
+.mono-grot { font-family: var(--font-grotesque); }
+.tabular { font-feature-settings: var(--feat-tabular); font-variant-numeric: tabular-nums lining-nums; }
+
+/* a column of running body text inside a grid cell */
+.measure { max-width: 64ch; }
+.cols-2 { column-count: 2; column-gap: var(--gutter); }
+.cols-3 { column-count: 3; column-gap: var(--gutter); }
+.cols-2 p, .cols-3 p { break-inside: avoid-column; }
+
+/* hairline rule device */
+.rule { border: 0; border-top: 0.6pt solid var(--ink); height: 0; }
+.rule-red { border-top-color: var(--red); }
+.rule-thin { border-top-width: 0.3pt; }
+.is-dark .rule, .is-graphite .rule { border-top-color: var(--hairline-dark); }

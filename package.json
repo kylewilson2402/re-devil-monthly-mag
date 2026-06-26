@@ -1,0 +1,28 @@
+{
+  "name": "re-devil-monthly-mag",
+  "version": "1.0.0",
+  "description": "Red Chapters — Manchester United fan magazine, Vol. 01. Print-ready brutalist editorial built with an HTML/CSS + Paged.js to PDF pipeline.",
+  "main": "build.js",
+  "scripts": {
+    "images": "node scripts/process-images.js",
+    "build": "node build.js both",
+    "build:print": "node build.js print",
+    "build:digital": "node build.js digital",
+    "qa": "node build.js digital --png=all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:41729/git/kylewilson2402/re-devil-monthly-mag"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource/archivo": "^5.2.8",
+    "@fontsource/archivo-black": "^5.2.8",
+    "@fontsource/source-serif-4": "^5.2.9",
+    "pagedjs": "^0.4.3",
+    "playwright-core": "^1.61.1",
+    "sharp": "^0.35.2"
+  }
+}

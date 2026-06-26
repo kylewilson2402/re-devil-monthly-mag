@@ -1,0 +1,56 @@
+[
+  {
+    "asset": "cover-tunnel",
+    "src": "535x862",
+    "out": "1614x2600",
+    "fullbleedDpi": 218
+  },
+  {
+    "asset": "crowd-banners",
+    "src": "1283x689",
+    "out": "2600x1396",
+    "fullbleedDpi": 218
+  },
+  {
+    "asset": "casemiro-walkout",
+    "src": "604x855",
+    "out": "1695x2400",
+    "fullbleedDpi": 201
+  },
+  {
+    "asset": "casemiro-walkout-b",
+    "src": "348x855",
+    "out": "814x2000",
+    "fullbleedDpi": 168
+  },
+  {
+    "asset": "carrick-training",
+    "src": "1214x859",
+    "out": "2600x1840",
+    "fullbleedDpi": 218
+  },
+  {
+    "asset": "bruno-shirt",
+    "src": "761x853",
+    "out": "2141x2400",
+    "fullbleedDpi": 201
+  },
+  {
+    "asset": "team-brighton",
+    "src": "1280x687",
+    "out": "2600x1395",
+    "fullbleedDpi": 218
+  },
+  {
+    "asset": "celebration-a",
+    "src": "284x855",
+    "out": "664x2000",
+    "fullbleedDpi": 168
+  },
+  {
+    "asset": "celebration-b",
+    "src": "290x855",
+    "out": "678x2000",
+    "fullbleedDpi": 168
+  }
+]
