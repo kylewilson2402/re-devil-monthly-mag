@@ -251,6 +251,16 @@ figure, .photo { border: 0; border-radius: 0; box-shadow: none; }
 .mono-grot { font-family: var(--font-grotesque); }
 .tabular { font-feature-settings: var(--feat-tabular); font-variant-numeric: tabular-nums lining-nums; }
 
+/* lift reversed type off busy / light areas of a photo without a box.
+   A tight high-opacity halo gives a crisp edge (works even over white kit),
+   plus a soft falloff; invisible where the background is already dark. */
+.txt-protect {
+  text-shadow:
+    0 0.25mm 0.5mm rgba(10,10,10,0.92),
+    0 0.6mm 1.8mm rgba(10,10,10,0.7),
+    0 0 3.5mm rgba(10,10,10,0.5);
+}
+
 /* a column of running body text inside a grid cell */
 .measure { max-width: 64ch; }
 .cols-2 { column-count: 2; column-gap: var(--gutter); }
