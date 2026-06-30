@@ -137,6 +137,20 @@ h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
   background: linear-gradient(to right,
     rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.35) 32%, rgba(10,10,10,0) 60%);
 }
+/* heavier scrim for openers whose text falls over a light subject
+   (e.g. a white training top): darkens the lower text zone hard, keeps
+   the upper subject bright. A graduated overlay, never a flat box (§7). */
+.grad-opener-heavy::after {
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(to top,
+      rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.86) 26%,
+      rgba(10,10,10,0.5) 46%, rgba(10,10,10,0.12) 62%, rgba(10,10,10,0) 74%),
+    linear-gradient(to top right,
+      rgba(10,10,10,0.66) 0%, rgba(10,10,10,0.18) 38%, rgba(10,10,10,0) 58%),
+    linear-gradient(to bottom,
+      rgba(10,10,10,0.45) 0%, rgba(10,10,10,0) 26%);
+}
 
 /* duotone signature for archival/secondary imagery (§7) */
 .duotone img, img.duotone {
